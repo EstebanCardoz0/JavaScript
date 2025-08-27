@@ -10,3 +10,12 @@
 ["Ana","Juan"].join(" - "); // "Ana - Juan"
 "   hola   ".trim(); // "hola"
 "ha".repeat(3); // "hahaha"
+
+let nums = [5, 10, 15];
+console.log(nums.at(-1)); // 15 (último elemento)
+console.log(nums.at(-2)); // 10 (penúltimo)
+frutas.push("uva");
+frutas.pop();
+frutas.unshift("kiwi");
+frutas.shift();
+
