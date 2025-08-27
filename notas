@@ -1,0 +1,12 @@
+"Hola mundo".includes("Hola"); // true
+"Hola".startsWith("Ho"); // true
+"archivo.txt".endsWith(".txt"); // true
+"hola".toUpperCase(); // "HOLA"
+"HOLA".toLowerCase(); // "hola"
+"JavaScript".slice(0, 4); // "Java"
+"Hola mundo".replace("mundo", "JS"); // "Hola JS"
+"hola hola".replaceAll("hola", "chau"); // "chau chau"
+"Ana,Juan,Pedro".split(","); // ["Ana","Juan","Pedro"]
+["Ana","Juan"].join(" - "); // "Ana - Juan"
+"   hola   ".trim(); // "hola"
+"ha".repeat(3); // "hahaha"

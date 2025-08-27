@@ -1,5 +1,4 @@
-var nombre="Esteban"
-var edad=30
-var ciudad="Madrid"
-
-console.log("Hola, me llamo "+typeof null +", tengo "+edad+" años y vivo en "+ciudad+".")
+for (let index = 10; index >= 0; index--) {
+console.log(index)  
+}
+console.log("FELIZ AÑO NUEVO!")
