@@ -16,7 +16,7 @@ class GestorPedidos {
     //   }
     // });
 
-    const hayDuplicado = this.#pedidos.some(ped => ped === pedido);
+    const hayDuplicado = this.#pedidos.some(ped => ped.id === pedido.id);
 
     if (hayDuplicado) {
 
@@ -29,6 +29,14 @@ class GestorPedidos {
   }
 
   agruparPorEstado() {
+
+    return {
+      pendiente: this.#pedidos.filter(ped => ped.estado === "pendiente"),
+      asignado: this.#pedidos.filter(ped => ped.estado === "asignado"),
+      enRuta: this.#pedidos.filter(ped => ped.estado === "enRuta"),
+      entregado: this.#pedidos.filter(ped => ped.estado === "entregado"),
+      cancelado: this.#pedidos.filter(ped => ped.estado === "cancelado")
+    };
 
   }
 

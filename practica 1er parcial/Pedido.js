@@ -13,7 +13,7 @@ class Pedido {
 
   static estados = ["pendiente",
     "asignado",
-    "en ruta",
+    "enRuta",
     "entregado",
     "cancelado"];
 }
