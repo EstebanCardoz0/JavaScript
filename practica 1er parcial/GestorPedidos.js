@@ -1,13 +1,13 @@
 class GestorPedidos {
 
   #pedidos = [];
+  #listaEspera = [];
 
-  constructor(pedidos) {
+  constructor(pedidos=[]) {
 
     this.#pedidos = pedidos;
   }
 
-  //se podria usar la funcion some
   agregarPedido(pedido) {
 
     // this.#pedidos.forEach(element => {
@@ -41,6 +41,32 @@ class GestorPedidos {
   }
 
   asignarPedidos(repartidores) {
+
+    const pendientes = this.agruparPorEstado().pendiente;
+
+    const asignaciones = {};
+
+    repartidores.forEach(repartidor => {
+
+      asignaciones[repartidor] = 0;
+    });
+
+    pendientes.forEach((pedido, indice) => {
+
+      const indiceRepartidor = indice % repartidores.length;
+      const repartidorAsignado = repartidores[indiceRepartidor];
+
+      if (asignaciones[repartidorAsignado] >= 3) {
+        this.#listaEspera.push(pedido);
+
+      } else {
+
+
+        console.log(`Se asignó el pedido ${pedido.id} al repartidor ${repartidorAsignado}`);
+        asignaciones[repartidorAsignado]++;
+        pedido.estado = "asignado";
+      }
+    });
 
   }
 
