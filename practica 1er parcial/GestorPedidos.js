@@ -1,23 +1,17 @@
 export default
-class GestorPedidos {
+  class GestorPedidos {
 
   #pedidos = [];
   #listaEspera = [];
 
-  
 
-  constructor(pedidos=[]) {
+
+  constructor(pedidos = []) {
 
     this.#pedidos = pedidos;
   }
 
   agregarPedido(pedido) {
-
-    // this.#pedidos.forEach(element => {
-    //   if (pedido.id === element.id) {
-    //     throw new Error("Pedido duplicado");
-    //   }
-    // });
 
     const hayDuplicado = this.#pedidos.some(ped => ped.id === pedido.id);
 

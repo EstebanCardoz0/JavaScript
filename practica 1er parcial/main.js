@@ -2,13 +2,10 @@ import Pedido from "./Pedido.js";
 import GestorPedidos from "./GestorPedidos.js";
 
 const gestor = new GestorPedidos();
-
 const nombres = ["Carlos", "Cristian", "Romina", "Vanesa", "Mauricio"]
+
 const productos = ["olla a presión", "celular", "pelota", "netbook", "zapatilla", "camiseta china", "air fryer", "especias", "licuadora", "heladera", "cocina"]
-const estados = ["pendiente",
-  "asignado",
-  "enRuta",
-  "entregado"]
+
 
 var contador = 0;
 
@@ -33,6 +30,28 @@ setInterval(() => {
 
 }, 3000);
 
+
+setInterval(() => {
+  console.log("iniciando ciclo de operaciones");
+
+  gestor.asignarPedidos(nombres)
+  const asignados = gestor.agruparPorEstado().asignado;
+  const tresPrimeros = asignados.slice(0, 3);
+  tresPrimeros.forEach(element => element.estado = "enRuta");
+
+const arrayPromesas = tresPrimeros.map(pedido => entregarPedido(pedido));
+
+
+  Promise.all(arrayPromesas).then((resultados) => {
+  console.log("los tres pedidos se han entregado");
+  console.log("pedidos entregados: ", resultados);
+})
+  .catch((error) => {
+    console.error("uno o más pedidos no fueron entregados", error);
+  });
+
+}, 10000);
+
 function entregarPedido(pedidoRuta) {
 
   return new Promise((resolve, reject) => {
@@ -47,29 +66,11 @@ function entregarPedido(pedidoRuta) {
 }
 
 
-function crearArrayEnRuta() {
-
-  pedidosEnRuta = gestor.agruparPorEstado().enRuta;
-  const arrayEnRuta = [];
 
 
-  for (let index = 0; index < 3; index++) {
-    arrayEnRuta.push(pedidosEnRuta[index]);
-  }
-  return arrayEnRuta;
-}
 
-const tresPedidosEnRuta = crearArrayEnRuta();
 
-const arrayPromesas = tresPedidosEnRuta.map(pedido => entregarPedido(pedido));
 
-Promise.all(arrayPromesas).then((resultados) => {
-  console.log("los tres pedidos se han entregado");
-  console.log("pedidos entregados: ", resultados);
-})
-  .catch((error) => {
-    console.error("uno o más pedidos no fueron entregados", error);
-  });
 
 
 
