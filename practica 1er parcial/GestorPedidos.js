@@ -1,7 +1,10 @@
+export default
 class GestorPedidos {
 
   #pedidos = [];
   #listaEspera = [];
+
+  
 
   constructor(pedidos=[]) {
 
