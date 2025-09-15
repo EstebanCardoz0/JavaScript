@@ -1,4 +1,4 @@
-class EstadoInvalidoError extends Error {
+export default class EstadoInvalidoError extends Error {
 
   constructor(mensaje) {
     super(mensaje);

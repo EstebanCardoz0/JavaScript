@@ -1,14 +1,20 @@
-export default
-  class GestorPedidos {
+import DatosIncompletosError from "./DatosIncompletosError.js";
+import EstadoInvalidoError from "./EstadoInvalidoError.js";
+import Pedido from "./Pedido";
+import Negocio from "./Negocio.js";
+
+export default class GestorPedidos {
 
   #pedidos = [];
   #listaEspera = [];
+  #reglasNegocio;
 
 
 
-  constructor(pedidos = []) {
+  constructor(pedidos = [], reglasNegocio) {
 
     this.#pedidos = pedidos;
+    this.#reglasNegocio = reglasNegocio;
   }
 
   agregarPedido(pedido) {
@@ -64,6 +70,53 @@ export default
         pedido.estado = "asignado";
       }
     });
+
+  }
+
+  contadorPedidosPorCliente(cliente) {
+
+    const self = this;
+
+    return function () {
+      const total = self.#pedidos.filter(pedido => pedido.cliente === cliente).length;
+      return total;
+    };
+  };
+
+  totalPedidos() {
+    return this.#pedidos.length;
+  }
+
+  validarEntradaPedido(obj) {
+
+    if (obj.id && obj.cliente && obj.producto) {
+
+      const id = Number(obj.id);
+      const cliente = String(obj.cliente);
+      const producto = String(obj.producto);
+
+      return new Pedido(id, cliente, producto);
+
+    } else {
+      throw new DatosIncompletosError();
+    }
+
+  }
+
+  priorizarPedidos() {
+
+    const alta = []
+    const media = []
+    const baja = []
+    const neg = new Negocio();
+    const pedi = this.#pedidos;
+
+    pedi.forEach(element => {
+
+      
+
+    });
+
 
   }
 
