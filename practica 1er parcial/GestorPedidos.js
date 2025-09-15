@@ -47,29 +47,50 @@ export default class GestorPedidos {
 
     const pendientes = this.agruparPorEstado().pendiente;
 
+
+    const altaPrioridad = [];
+    const mediaPrioridad = [];
+    const bajaPrioridad = [];
+
+    const clientesVip = this.#reglasNegocio.getClientesVip();
+    const productosLentos = this.#reglasNegocio.getProductosLentos();
+
+    pendientes.forEach(pedido => {
+      if (clientesVip.includes(pedido.cliente)) {
+        altaPrioridad.push(pedido);
+      } else if (productosLentos.includes(pedido.producto)) {
+        mediaPrioridad.push(pedido);
+      } else {
+        bajaPrioridad.push(pedido);
+      }
+    });
+
+    let pedidosParaAsignar;
+
+    if (altaPrioridad.length > 2) {
+      console.warn("! ALERTA: Hay más de 2 pedidos de alta prioridad. Se suspende la asignación de baja prioridad.");
+      pedidosParaAsignar = altaPrioridad.concat(mediaPrioridad);
+    } else {
+      pedidosParaAsignar = pendientes;
+    }
+
     const asignaciones = {};
-
     repartidores.forEach(repartidor => {
-
       asignaciones[repartidor] = 0;
     });
 
-    pendientes.forEach((pedido, indice) => {
+    pedidosParaAsignar.forEach((pedido, indice) => {
+    const indiceRepartidor = indice % repartidores.length;
+    const repartidorAsignado = repartidores[indiceRepartidor];
 
-      const indiceRepartidor = indice % repartidores.length;
-      const repartidorAsignado = repartidores[indiceRepartidor];
-
-      if (asignaciones[repartidorAsignado] >= 3) {
-        this.#listaEspera.push(pedido);
-
-      } else {
-
-
-        console.log(`Se asignó el pedido ${pedido.id} al repartidor ${repartidorAsignado}`);
-        asignaciones[repartidorAsignado]++;
-        pedido.estado = "asignado";
-      }
-    });
+    if (asignaciones[repartidorAsignado] >= 3) {
+      this.#listaEspera.push(pedido);
+    } else {
+      console.log(`Se asignó el pedido ${pedido.id} al repartidor ${repartidorAsignado}`);
+      asignaciones[repartidorAsignado]++;
+      pedido.estado = "asignado";
+    }
+  });
 
   }
 
@@ -108,15 +129,24 @@ export default class GestorPedidos {
     const alta = []
     const media = []
     const baja = []
-    const neg = new Negocio();
+
+    const negocio = this.#reglasNegocio;
     const pedi = this.#pedidos;
 
     pedi.forEach(element => {
 
-      
-
+      if (neg.getClientesVip().includes(element.cliente)) {
+        alta.push(element);
+      } else if (neg.getProductosLentos().includes(element.producto)) {
+        media.push(element);
+      } else {
+        baja.push(element);
+      }
     });
 
+    const pedidosOrdenados = alta.concat(media, baja);
+
+    return pedidosOrdenados;
 
   }
 
