@@ -51,11 +51,52 @@ const libros = [
   { titulo: 'Cien años de soledad', autor: 'Gabriel García Márquez' }
 ];
 
-for (let i = 0; i < libros.length; i++) {
-  console.log(libros[i].titulo);
-}
-console.log("")
-for (const libro of libros) {
-  console.log(libro.titulo);
+// for (let i = 0; i < libros.length; i++) {
+//   console.log(libros[i].titulo);
+// }
+// console.log("")
+// for (const libro of libros) {
+//   console.log(libro.titulo);
+// }
+
+// console.log("mensaje 1");
+
+function miCallBack() {
+  console.log("mensaje 2");
 }
 
+function operacionSincronica(callback) {
+  callback();
+  console.log("mensaje 3");
+}
+
+function operacionAsincronica(callback) {
+  setTimeout(function () {
+    callback();
+    console.log("mensaje 4");
+  }, 1000);
+}
+
+// operacionSincronica(miCallBack);
+// operacionAsincronica(miCallBack);
+
+// console.log("mensaje 5");
+
+const animal = {
+  tipo: "mamifero",
+  respirar: function () {
+    console.log("Estoy respirando");
+  }
+}
+
+const perro = Object.create(animal);
+perro.nombre = "Tobi";
+
+perro.respirar();
+console.log(perro.nombre);
+console.log(perro.tipo);
+
+animal.comer = function () { console.log("el animal come") };
+perro.comer = function () { console.log("el perro come"); Object.getPrototypeOf(this).comer.call(this) };
+
+perro.comer();
