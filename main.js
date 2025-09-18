@@ -1,6 +1,17 @@
-import { elegirHablante } from './chat.js';
+function crearContador() {
+  let count = 0;
 
-console.log("=== MINI CHAT ===");
+  return function () {
+    count++;
+    console.log(count);
+  };
+}
 
-// Iniciar eligiendo quién habla primero
-elegirHablante();
+const contador = crearContador();
+
+contador();
+contador();
+contador();
+const contadorA = crearContador();
+contadorA();
+contadorA();
