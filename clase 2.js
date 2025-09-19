@@ -92,11 +92,43 @@ const animal = {
 const perro = Object.create(animal);
 perro.nombre = "Tobi";
 
-perro.respirar();
-console.log(perro.nombre);
-console.log(perro.tipo);
+// perro.respirar();
+// console.log(perro.nombre);
+// console.log(perro.tipo);
 
 animal.comer = function () { console.log("el animal come") };
 perro.comer = function () { console.log("el perro come"); Object.getPrototypeOf(this).comer.call(this) };
 
-perro.comer();
+// perro.comer();
+
+class figura {
+
+  constructor() {
+    this.area = 0;
+  }
+}
+
+class cuadrado extends figura {
+
+  lado;
+
+  constructor(lado) {
+    super();
+    this.lado = lado;
+  }
+  area() {
+    return this.lado * this.lado;
+  }
+}
+
+class rectangulo extends cuadrado {
+
+  constructor(lado, ancho) {
+    super(lado);
+    this.ancho = ancho;
+  }
+
+  area() {
+    return this.lado * this.ancho;
+  }
+}
