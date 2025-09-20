@@ -132,3 +132,21 @@ class rectangulo extends cuadrado {
     return this.lado * this.ancho;
   }
 }
+
+// console.log("inicio");
+// setTimeout(() => console.log("temporizador 1"), 0);
+// Promise.resolve().then(() => console.log("promesa"));
+// setTimeout(() => console.log("temporizador 2"), 0)
+// console.log("fin");
+
+console.log("inicio")
+const miPromesa = new Promise((resolve, reject) => {
+  console.log("ejecutando promesa");
+  resolve("ejecutada con exito");
+});
+
+miPromesa.then(resultado => {
+  console.log(resultado);
+});
+
+console.log("fin");
