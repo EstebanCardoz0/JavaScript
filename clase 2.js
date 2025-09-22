@@ -139,14 +139,118 @@ class rectangulo extends cuadrado {
 // setTimeout(() => console.log("temporizador 2"), 0)
 // console.log("fin");
 
-console.log("inicio")
-const miPromesa = new Promise((resolve, reject) => {
-  console.log("ejecutando promesa");
-  resolve("ejecutada con exito");
-});
+// console.log("inicio")
+// const miPromesa = new Promise((resolve, reject) => {
+//   // console.log("ejecutando promesa");
+//   resolve("ejecutada con exito");
+// });
 
-miPromesa.then(resultado => {
-  console.log(resultado);
-});
+// miPromesa.then(resultado => {
+//   // console.log(resultado);
+// });
 
-console.log("fin");
+// console.log("fin");
+
+// const otraPromesa = new Promise((resolve, reject) => {
+
+//   console.log("ejecutando una tarea");
+//   reject("algo salió mal");
+// })
+
+// otraPromesa
+//   .then(resultado => {
+//     console.log("esto no se ejecutará: " + resultado);
+//   })
+//   .catch(error => { console.log("error capturado: " + error) });
+
+// new Promise((resolve, reject) => {
+//   console.log("paso 1");
+//   reject("error en el paso 1");
+// })
+//   .then(() => {
+//     console.log("paso 2");
+//   })
+//   .catch(error => {
+//     console.log("paso 3 capturando error");
+//     console.log(error)
+//   })
+//   .then(console.log("paso 4"));
+
+const usuarios = [
+  { id: 1, nombre: 'Ana', edad: 25 },
+  { id: 2, nombre: 'Luis', edad: 30 }
+];
+
+function obtenerDatos(id, usua) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let aux = false;
+      for (const element of usua) {
+        if (id === element.id) {
+          resolve(element);
+          aux = true;
+          break;
+        }
+      }
+      if (!aux) {
+        reject("user no encontrado")
+      }
+    }, 1000);
+  })
+}
+
+// obtenerDatos(3, usuarios)
+//   .then(usuario => {
+//     console.log("Usuario encontrado:", usuario);
+//   })
+//   .catch(error => {
+//     console.log("Error:", error);
+//   });
+
+// const promesaUsuario1 = new Promise(resolve => {
+//   setTimeout(() => resolve({ nombre: "Ana" }), 1000);
+// })
+
+// const promesaUsuario2 = new Promise(resolve => {
+//   setTimeout(() => resolve({ nombre: "Luis" }), 1000);
+// })
+
+// Promise.all([promesaUsuario1, promesaUsuario2])
+//   .then(resolve => console.log(resolve))
+
+// async function obtenerDatos() {
+//   const promesa = new Promise(resolve => {
+//     setTimeout(() => resolve("Datos cargados"), 1000);
+//   });
+//   const resultado = await promesa;
+//   console.log(resultado);
+// }
+
+// obtenerDatos();
+
+// pruebaPromise = new Promise((resolve) => {
+//   setTimeout(() => resolve("datos cargados"), 1000);
+// });
+
+// pruebaPromise
+//   .then(exito => console.log("bien hecho: " + exito));
+
+function simularFalla() {
+  return new Promise((resolve ,reject) => {
+    setTimeout(() => {
+      reject("error: fallo en la comunicacion");
+    }, 500);
+  })
+}
+
+async function manejarFalla() {
+  try {
+    const resultado = await simularFalla();
+    console.log("resultado");
+  } catch (error) {
+    console.log("error capturado: " + error);
+  }
+}
+
+manejarFalla();
+
