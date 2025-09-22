@@ -6,6 +6,7 @@ export default class GestorPedidos1 {
 
   constructor() {
     this.#pedidos = [];
+    this.listaDeEspera = []
   }
 
   agregarPedido(pedido) {
@@ -16,13 +17,6 @@ export default class GestorPedidos1 {
     }
     this.#pedidos.push(pedido);
   }
-  //   ○ agruparPorEstado()
-  // ● Devuelve un objeto con la forma: {
-  // ● cancelado: [...],
-  // ● asignado: [...],
-  // ● enRuta: [...],
-  // ● entregado: [...],
-  // ● cancelado: [...]}
 
   agruparPorEstado() {
     return {
@@ -35,20 +29,27 @@ export default class GestorPedidos1 {
   }
 
   asignarPedidos(repartidores) {
+
     const listaPendientes = this.agruparPorEstado().pendiente;
+    const pedidosPorRepartidor = {}
+    for (const element of repartidores) {
+      pedidosPorRepartidor[element] = 0;
+    }
+
+
 
     for (let i = 0; i < listaPendientes.length; i++) {
 
       let indiceRepartidor = i % repartidores.length;
 
-      listaPendientes[i].estado = "asignado";
-      console.log(`El pedido ${listaPendientes[i].id} fue asignado a ${repartidores[indiceRepartidor]}`)
-
+      if (pedidosPorRepartidor[repartidores[indiceRepartidor]] < 3) {
+        listaPendientes[i].estado = "asignado";
+        pedidosPorRepartidor[repartidores[indiceRepartidor]]++;
+        console.log(`El pedido ${listaPendientes[i].id} fue asignado a ${repartidores[indiceRepartidor]}`)
+      } else {
+        this.listaDeEspera.push(listaPendientes[i])
+      }
     }
-
   }
-  // ■ Implementa un algoritmo round-robin que distribuya los pedidos pendientes entre repartidores.
-  // ■ Si un repartidor recibe más de 3 pedidos en total, mover los pedidos excedentes a una lista de espera (listaEspera).
-
-
+  
 }
