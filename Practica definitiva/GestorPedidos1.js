@@ -3,10 +3,12 @@ import PedidoDuplicadoError from "./PedidoDuplicadoErros1";
 export default class GestorPedidos1 {
 
   #pedidos;
+  #pedidosPorCliente;
 
   constructor() {
     this.#pedidos = [];
-    this.listaDeEspera = []
+    this.listaDeEspera = [];
+    this.#pedidosPorCliente = {};
   }
 
   agregarPedido(pedido) {
@@ -51,5 +53,23 @@ export default class GestorPedidos1 {
       }
     }
   }
-  
-}
+
+  contadorPedidosPorCliente(cliente) {
+    if (!this.#pedidosPorCliente[cliente]) {
+      this.#pedidosPorCliente[cliente] = 0;
+    }
+    return () => {
+      this.#pedidosPorCliente[cliente]++;
+      return this.#pedidosPorCliente[cliente];
+    };
+  };
+
+  totalPedidos() {
+    return this.#pedidos.length;
+  }
+
+
+
+
+
+}//final clase
