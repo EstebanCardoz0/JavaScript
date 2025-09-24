@@ -1,14 +1,19 @@
 import PedidoDuplicadoError from "./PedidoDuplicadoErros1";
+import DatosFaltantesError from "./DatosFaltantesError";
 
 export default class GestorPedidos1 {
 
   #pedidos;
   #pedidosPorCliente;
+  #clientesVip;
+  #productosLentos;
 
   constructor() {
     this.#pedidos = [];
     this.listaDeEspera = [];
     this.#pedidosPorCliente = {};
+    this.#productosLentos = [];
+    this.#clientesVip = [];
   }
 
   agregarPedido(pedido) {
@@ -68,7 +73,45 @@ export default class GestorPedidos1 {
     return this.#pedidos.length;
   }
 
+  validarEntradaPedido(obj) {
 
+    if (!obj.id || !obj.cliente || !obj.producto) {
+      throw new DatosFaltantesError("Falta uno o más datos");
+
+    }
+
+    const id = Number(obj.id);
+    const cliente = String(obj.cliente);
+    const producto = String(obj.producto);
+    const estado = String(obj.estado);
+
+  }
+
+  priorizarPedidos() {
+
+    const listaPedidos = this.#pedidos;
+
+    let alta = [];
+    let media = [];
+    let baja = [];
+
+    for (const element of listaPedidos) {
+      if (this.#clientesVip.some(el => el === element.cliente)) {
+        alta.push(element);
+      } else {
+        if (this.#productosLentos.some(len => len === element.producto)) {
+          media.push(element);
+        } else {
+          baja.push(element);
+        }
+
+      }
+    }
+
+    let pedidosOrdenados = alta.concat(media.concat(baja));
+    return pedidosOrdenados;
+
+  }
 
 
 
